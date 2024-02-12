@@ -1,0 +1,36 @@
+.student-section {
+    margin: 50px;
+  
+    .student-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+  
+      justify-content: space-around;
+    }
+  
+    .student-item {
+      border: dotted white 3px;
+      border-radius: 15px;
+      width: 300px;
+      flex-grow: 1;
+      padding: 20px;
+  
+      h3 {
+        text-align: center;
+        width: 100%;
+        margin-bottom: 0;
+      }
+  
+      p {
+        text-align: center;
+        width: 100%;
+        margin-bottom: 25px;
+      }
+    }
+    
+    h2 {
+      text-align: center;
+    }
+  }
+  

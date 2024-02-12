@@ -1,0 +1,15 @@
+nav{
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    background-color: aliceblue;
+
+    a {
+        color: #242424;
+        padding: 10px 20px;
+    }
+
+    .active {
+        background-color: rgb(173, 215, 252);
+    }
+}
