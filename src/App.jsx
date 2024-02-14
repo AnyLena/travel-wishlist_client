@@ -5,6 +5,7 @@ import AddCountry from "./views/AddCountry";
 import AddStudent from "./views/AddStudent";
 import Students from "./views/Students";
 import NavBar from "./components/NavBar";
+import Login from "./views/Login";
 import { Routes, Route } from "react-router-dom";
 import { useState } from "react";
 
@@ -21,6 +22,7 @@ function App() {
         <Route path="/students" element={<Students />} />
         <Route path="/add-country" element={<AddCountry />} />
         <Route path="/add-student" element={<AddStudent />} />
+        <Route path="/login" element={<Login />} />
       </Routes>
     </>
   );
