@@ -1,6 +1,5 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
-import { SERVER } from "../constants/server.js";
 import { useParams } from "react-router-dom";
 import StudentList from "../components/StudentList.jsx";
 import "../styles/students.css";
@@ -10,9 +9,11 @@ const Country = () => {
 
   const { name, id } = useParams();
 
+  const server = import.meta.env.VITE_SERVER
+
   const studentList = async () => {
     try {
-      const response = await axios.get(`${SERVER}/students?country=${id}`);
+      const response = await axios.get(`${server}/students?country=${id}`);
       setStudents(response.data);
     } catch (error) {
       console.log(error.message);

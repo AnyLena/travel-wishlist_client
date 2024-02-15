@@ -1,5 +1,4 @@
 import "../styles/addstudent.css";
-import { SERVER } from "../constants/server.js";
 import { useEffect, useState } from "react";
 import axios from 'axios'
 
@@ -11,9 +10,11 @@ const AddStudent = () => {
   const [countryId, setCountryId] = useState();
   const [countryList, setCountryList] = useState([]);
 
+  const server = import.meta.env.VITE_SERVER
+
   const countryData = async () => {
     try {
-      const response = await axios.get(`${SERVER}/countries?sort=true`);
+      const response = await axios.get(`${server}/countries?sort=true`);
       setCountryList(response.data);
     } catch (error) {
       console.log(error.message);

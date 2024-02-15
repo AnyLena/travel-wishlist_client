@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { SERVER } from "../constants/server.js";
 import axios from "axios";
 import "../styles/countries.css";
 import { Link } from "react-router-dom";
@@ -7,9 +6,11 @@ import { Link } from "react-router-dom";
 const Countries = () => {
   const [countries, setCounbtries] = useState([]);
 
+  const server = import.meta.env.VITE_SERVER
+
   const countryData = async () => {
     try {
-      const response = await axios.get(`${SERVER}/countries?sort=true`);
+      const response = await axios.get(`${server}/countries?sort=true`);
       setCounbtries(response.data);
     } catch (error) {
       console.log(error.message);

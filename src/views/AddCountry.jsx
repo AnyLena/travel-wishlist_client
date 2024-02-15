@@ -1,5 +1,4 @@
 import "../styles/addcountry.css";
-import { SERVER } from "../constants/server.js";
 import { useEffect, useState } from "react";
 
 const AddCountry = () => {
@@ -8,12 +7,14 @@ const AddCountry = () => {
   const [alpha2Code, setAlpha2Code] = useState();
   const [alpha3Code, setAlpha3Code] = useState();
 
+  const server = import.meta.env.VITE_SERVER
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     const formData = new FormData(e.target);
     const data = Object.fromEntries(formData);
 
-    const response = await fetch(`${SERVER}/countries/`, {
+    const response = await fetch(`${server}/countries/`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
