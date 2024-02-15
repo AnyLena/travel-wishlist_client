@@ -14,3 +14,8 @@ export const privateRoutes = [
   { path: "/add-country", element: <AddCountry /> },
   { path: "/add-student", element: <AddStudent /> },
 ];
+
+export const adminRoutes = [
+  { path: "/add-country", element: <AddCountry /> },
+  { path: "/add-student", element: <AddStudent /> },
+];

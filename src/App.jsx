@@ -1,12 +1,13 @@
 import "./styles/App.css";
 import { Routes, Route, Navigate } from "react-router-dom";
 import { useAuth } from "./context/AuthContext";
-import { privateRoutes, publicRoutes } from "./routes/routes";
+import { privateRoutes, publicRoutes, adminRoutes } from "./routes/routes";
 import NavBar from "./components/NavBar";
 import NotFound from "./views/NotFound";
 
 function App() {
-  const { token } = useAuth();
+  const { token, user } = useAuth();
+  console.log(user)
 
   return (
     <>
@@ -25,6 +26,13 @@ function App() {
             key={path}
             path={path}
             element={token ? element : <Navigate to="/login" />}
+          />
+        ))}
+        {adminRoutes.map(({ path, element }) => (
+          <Route
+            key={path}
+            path={path}
+            element={(token && !user.admin) ? element : <Navigate to="/login" />}
           />
         ))}
 
