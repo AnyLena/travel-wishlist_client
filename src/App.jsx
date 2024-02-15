@@ -1,28 +1,35 @@
 import "./styles/App.css";
-import Countries from "./views/Countries";
-import Country from "./views/Country";
-import AddCountry from "./views/AddCountry";
-import AddStudent from "./views/AddStudent";
-import Students from "./views/Students";
+import { Routes, Route, Navigate } from "react-router-dom";
+import { useAuth } from "./context/AuthContext";
+import { privateRoutes, publicRoutes } from "./routes/routes";
 import NavBar from "./components/NavBar";
-import Login from "./views/Login";
-import { Routes, Route } from "react-router-dom";
-import { useState } from "react";
+import NotFound from "./views/NotFound";
 
 function App() {
-  const [count, setCount] = useState(0);
+  const { token } = useAuth();
 
   return (
     <>
       <NavBar />
       <h1>Travel Wish List</h1>
       <Routes>
-        <Route path="/" element={<Countries />} />
-        <Route path="/countries/:name/:id" element={<Country />} />
-        <Route path="/students" element={<Students />} />
-        <Route path="/add-country" element={<AddCountry />} />
-        <Route path="/add-student" element={<AddStudent />} />
-        <Route path="/login" element={<Login />} />
+        {publicRoutes.map(({ path, element }) => (
+          <Route
+            key={path}
+            path={path}
+            element={!token ? element : <Navigate to="/" />}
+          />
+        ))}
+        {privateRoutes.map(({ path, element }) => (
+          <Route
+            key={path}
+            path={path}
+            element={token ? element : <Navigate to="/login" />}
+          />
+        ))}
+
+        <Route path="/not-found" element={<NotFound />} />
+        <Route path="*" element={<Navigate to="/not-found" replace />} />
       </Routes>
     </>
   );

@@ -1,29 +1,67 @@
+import { useState } from "react";
+import { useAuth } from "../context/AuthContext";
 import "../styles/login.css";
 
 const Login = () => {
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+  });
 
-  const server = import.meta.env.VITE_SERVER
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const { login, user } = useAuth();
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const formData = new FormData(e.target);
-    const data = Object.fromEntries(formData);
-
-    const response = await fetch(`${server}/login/`)
-    const result = await response.json();
+    await login(formData, setLoading, setError);
   };
+
   return (
-    <section className="login">
-      <form onSubmit={handleSubmit}>
-        <label htmlFor="name">
-          Email Address <input type="text" id="name" name="name" />
-        </label>
-        <label htmlFor="password">
-          Password <input type="text" id="password" name="password" />
-        </label>
-        <button type="submit">Log In</button>
-      </form>
-    </section>
+    <>
+      {error ? (
+        <p>Error: {error} </p>
+      ) : (
+        <section className="login">
+          <form onSubmit={handleSubmit}>
+            <label htmlFor="email">
+              Email Address{" "}
+              <input
+                type="email"
+                id="email"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+                required
+              />
+            </label>
+            <label htmlFor="password">
+              Password{" "}
+              <input
+                type="password"
+                id="password"
+                name="password"
+                value={formData.password}
+                onChange={handleChange}
+                required
+              />
+            </label>
+            <button disabled={loading} type="submit">
+              Log In
+            </button>
+          </form>
+          {user ? <p>Welcome {user.name}</p> : null}
+        </section>
+      )}
+    </>
   );
 };
 

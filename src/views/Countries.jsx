@@ -1,19 +1,32 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import "../styles/countries.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 
 const Countries = () => {
   const [countries, setCounbtries] = useState([]);
+  const navigate = useNavigate();
+  const [loading, setloading] = useState(true);
+  const [error, setError] = useState(null);
 
-  const server = import.meta.env.VITE_SERVER
+  const { token } = useAuth();
+
+  const server = import.meta.env.VITE_SERVER;
 
   const countryData = async () => {
     try {
-      const response = await axios.get(`${server}/countries?sort=true`);
+      const response = await axios.get(`${server}/countries?sort=true`, {
+        headers: {
+          Authorization: token ? `Bearer ${token}` : null,
+        },
+      });
       setCounbtries(response.data);
     } catch (error) {
       console.log(error.message);
+      setError(error.response.data);
+    } finally {
+      setloading(false);
     }
   };
 
@@ -29,13 +42,16 @@ const Countries = () => {
           <>
             {countries.map((country) =>
               !country.visited ? (
-                <Link to={`/countries/${country.name}/${country._id}`} >
-                <div key={country.alpha2Code} className="country-item">
-                  <h3>{country.name}</h3>
-                  <p>
-                    {country.alpha2Code} | {country.alpha3Code}
-                  </p>
-                </div>
+                <Link
+                  key={country.alpha2Code}
+                  to={`/countries/${country.name}/${country._id}`}
+                >
+                  <div className="country-item">
+                    <h3>{country.name}</h3>
+                    <p>
+                      {country.alpha2Code} | {country.alpha3Code}
+                    </p>
+                  </div>
                 </Link>
               ) : null
             )}
@@ -50,19 +66,22 @@ const Countries = () => {
           <>
             {countries.map((country) =>
               country.visited ? (
-                <Link to={`/countries/${country.name}/${country._id}`} >
-                <div key={country.alpha2Code} className="country-item">
-                  <h3>{country.name}</h3>
-                  <p>
-                    {country.alpha2Code} | {country.alpha3Code}
-                  </p>
-                </div>
+                <Link
+                  key={country.alpha2Code}
+                  to={`/countries/${country.name}/${country._id}`}
+                >
+                  <div className="country-item">
+                    <h3>{country.name}</h3>
+                    <p>
+                      {country.alpha2Code} | {country.alpha3Code}
+                    </p>
+                  </div>
                 </Link>
               ) : null
             )}
           </>
         ) : (
-          NULL
+          null
         )}
       </div>
     </section>
